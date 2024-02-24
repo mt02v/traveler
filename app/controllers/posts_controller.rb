@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.page(params[:page]).recerse_order
   end
 
   def show
@@ -26,7 +26,7 @@ class PostsController < ApplicationController
     post.update(post_params)
     redirect_to post_path(post.id)
   end
-  
+
   def destroy
     post = Post.find(params[:id])
     post.destroy
