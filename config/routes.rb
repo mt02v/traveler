@@ -6,6 +6,11 @@ root :to => 'homes#top'
 resources :posts do
   resources :comments, only:[:create, :destroy]
   resources :favorites, only: [:create, :destroy]
-  resources :users, only:[:index, :show, :edit, :update]
+  resources :users, only:[:index, :show, :edit, :update] do
+    member do 
+      get :follows, :followers
+    end
+  resource :relationships, only: [:create, :destroy]
+ end
 end
 end
