@@ -1,0 +1,1 @@
+validates :comment,presence: true, length: { maximum: 35 }
