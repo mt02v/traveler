@@ -14,8 +14,8 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page]).recerse_order
-    @posts = @posts.where('location LIKE ?', "#{params[:search]}%") if params[:search].present?
+    @posts = Post.published.page(params[:page]).recerse_order
+    @posts = @posts.where('location LIKE ?', "%#{params[:search]}%") if params[:search].present?
   end
 
   def show
@@ -39,9 +39,13 @@ class PostsController < ApplicationController
     post.destroy
     redirect_to posts_path
   end
+  
+  def confirm
+    @posts = current_user.posts.draft.page(params[:page]).reverse_order
+  end
 
   private
   def post_params
-    params.require(:post).permit(:location, :text, :image)
+    params.require(:post).permit(:location, :text, :image, :status)
   end
 end
